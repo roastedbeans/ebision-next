@@ -70,7 +70,6 @@ const HomePage = async () => {
                 alt="IFIP Logo"
                 width={80}
                 height={35}
-                objectFit="contain"
                 loading="lazy"
                 className="object-contain w-24 h-fit"
               />
