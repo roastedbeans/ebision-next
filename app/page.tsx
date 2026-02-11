@@ -36,7 +36,7 @@ export default function RootPage() {
             width={160}
             height={60}
             priority
-            className="h-14 w-auto dark:invert"
+            className="h-14 w-auto"
           />
           <div className="flex flex-col gap-2">
             <h6 className="text-primary">IFIP WG 8.4</h6>
