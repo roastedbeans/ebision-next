@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import enData from "@/data/2026/en/lifetime-achievement.json";
-import krData from "@/data/2026/kr/lifetime-achievement.json";
-import { selectData } from "@/lib/data-client";
+import { getClientData } from "@/lib/data-registry";
+import { useYear } from "@/providers/year-provider";
 
 interface LifetimeAchievementData {
   name: string;
@@ -17,11 +16,8 @@ interface LifetimeAchievementData {
 
 const LifetimeAchievementPage = () => {
   const locale = useLocale();
-  const data: LifetimeAchievementData = selectData(
-    locale,
-    enData,
-    krData,
-  ) as unknown as LifetimeAchievementData;
+  const year = useYear();
+  const data = getClientData<LifetimeAchievementData>(year, locale, "lifetime-achievement");
 
   if (!data) {
     return <div>No data found</div>;

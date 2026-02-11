@@ -2,11 +2,8 @@
 
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import enGuestSpeaker from "@/data/2026/en/guest-speaker.json";
-import enKeynotes from "@/data/2026/en/keynotes.json";
-import krGuestSpeaker from "@/data/2026/kr/guest-speaker.json";
-import krKeynotes from "@/data/2026/kr/keynotes.json";
-import { selectData } from "@/lib/data-client";
+import { getClientData } from "@/lib/data-registry";
+import { useYear } from "@/providers/year-provider";
 
 interface KeynoteSpeaker {
   speaker: string;
@@ -80,19 +77,16 @@ const KeynoteCard = ({
 const KeynotesPage = () => {
   const t = useTranslations("KeynotesPage");
   const locale = useLocale();
-  const keynotes: KeynoteSpeaker[] = selectData(locale, enKeynotes, krKeynotes) as KeynoteSpeaker[];
-  const guestSpeakers: KeynoteSpeaker[] = selectData(
-    locale,
-    enGuestSpeaker,
-    krGuestSpeaker,
-  ) as KeynoteSpeaker[];
+  const year = useYear();
+  const keynotes = getClientData<KeynoteSpeaker[]>(year, locale, "keynotes");
+  const guestSpeakers = getClientData<KeynoteSpeaker[]>(year, locale, "guest-speaker");
 
   return (
     <section className="px-4 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-24 flex flex-col gap-8 sm:gap-12">
       {/* Keynote Speakers Header */}
       <div className="flex flex-col items-center justify-center gap-3 sm:gap-4">
         <h1 className="text-foreground text-center">{t("title")}</h1>
-        <h3 className="text-muted-foreground text-center max-w-8xl">{t("subtitle")}</h3>
+        <h3 className="text-muted-foreground text-center max-w-8xl">{t("subtitle", { year })}</h3>
       </div>
 
       {/* Keynotes Grid */}

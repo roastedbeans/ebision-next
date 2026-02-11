@@ -1,24 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { type NavRouteKey, type ValidYear, YEAR_CONFIG } from "@/constants/config";
+import { loadData } from "@/lib/data";
 
-const footerLinks = {
-  about: [
-    { key: "overview" as const, href: "/overview", disabled: false },
-    { key: "organization" as const, href: "/organization", disabled: false },
-    { key: "lifetimeAchievement" as const, href: "/lifetime-achievement", disabled: false },
-    { key: "previousEvents" as const, href: "/previous-events", disabled: false },
-  ],
-  program: [
-    { key: "programSchedule" as const, href: "/program", disabled: true },
-    { key: "keynotes" as const, href: "/keynotes", disabled: true },
-  ],
-  participate: [
-    { key: "authorInstructions" as const, href: "/author-instruction", disabled: false },
-    { key: "registration" as const, href: "/registration", disabled: true },
-    { key: "contact" as const, href: "/contact", disabled: false },
-  ],
-};
+interface ConferenceData {
+  conferenceName: string;
+  conferenceFullTitle: string;
+}
 
 const categoryKeys = {
   about: "about",
@@ -26,9 +15,54 @@ const categoryKeys = {
   participate: "participate",
 } as const;
 
-const Footer = async () => {
+const Footer = async ({ year }: { year: ValidYear }) => {
   const t = await getTranslations("Footer");
-  const tCommon = await getTranslations("Common");
+  const conf = await loadData<ConferenceData>("conference", year);
+
+  const disabledRoutes = YEAR_CONFIG[year].disabledRoutes;
+  const isDisabled = (key: NavRouteKey) => disabledRoutes.includes(key);
+
+  const footerLinks = {
+    about: [
+      { key: "overview" as const, href: `/${year}/overview`, disabled: isDisabled("overview") },
+      {
+        key: "organization" as const,
+        href: `/${year}/organization`,
+        disabled: isDisabled("organization"),
+      },
+      {
+        key: "lifetimeAchievement" as const,
+        href: `/${year}/lifetime-achievement`,
+        disabled: isDisabled("lifetimeAchievement"),
+      },
+      {
+        key: "previousEvents" as const,
+        href: `/${year}/previous-events`,
+        disabled: isDisabled("previousEvents"),
+      },
+    ],
+    program: [
+      {
+        key: "programSchedule" as const,
+        href: `/${year}/program`,
+        disabled: isDisabled("program"),
+      },
+      { key: "keynotes" as const, href: `/${year}/keynotes`, disabled: isDisabled("keynotes") },
+    ],
+    participate: [
+      {
+        key: "announcement" as const,
+        href: `/${year}/announcement`,
+        disabled: isDisabled("announcement"),
+      },
+      {
+        key: "authorInstructions" as const,
+        href: `/${year}/author-instruction`,
+        disabled: isDisabled("authorInstructions"),
+      },
+      { key: "contact" as const, href: `/${year}/contact`, disabled: isDisabled("contact") },
+    ],
+  };
 
   return (
     <footer className="w-full bg-background border-t border-border">
@@ -45,8 +79,8 @@ const Footer = async () => {
               className="h-10 w-auto"
             />
             <div className="flex flex-col gap-1">
-              <h5 className="text-foreground">{tCommon("conferenceName")}</h5>
-              <small className="text-muted-foreground">{tCommon("conferenceFullTitle")}</small>
+              <h5 className="text-foreground">{conf.conferenceName}</h5>
+              <small className="text-muted-foreground">{conf.conferenceFullTitle}</small>
             </div>
           </div>
 
@@ -84,22 +118,8 @@ const Footer = async () => {
         </div>
 
         {/* Bottom Footer */}
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <small className="text-muted-foreground">{t("copyright")}</small>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/privacy"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <small>{t("privacyPolicy")}</small>
-            </Link>
-            <Link
-              href="/terms"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <small>{t("termsOfService")}</small>
-            </Link>
-          </div>
+        <div className="border-t border-border pt-8 flex justify-center items-center">
+          <small className="text-muted-foreground">{t("copyright", { year })}</small>
         </div>
       </div>
     </footer>

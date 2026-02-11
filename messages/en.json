@@ -1,10 +1,5 @@
 {
   "Common": {
-    "conferenceName": "EBISION 2026",
-    "conferenceFullTitle": "The 2nd IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution",
-    "dates": "July 8–10, 2026",
-    "venue": "Kookmin University",
-    "location": "Seoul, South Korea",
     "organizer": "IFIP Working Group 8.4",
     "organizerSubtitle": "E-Business Information Systems",
     "email": "cyberchair.ebision@gmail.com",
@@ -24,6 +19,8 @@
     "previousEvents": "Previous Events",
     "program": "Program",
     "keynotes": "Keynotes",
+    "lifetimeAchievement": "Lifetime Achievement",
+    "announcement": "Announcement",
     "authorInstructions": "Author Instructions",
     "contact": "Contact",
     "openMenu": "Open menu",
@@ -40,31 +37,27 @@
     "previousEvents": "Previous Events",
     "programSchedule": "Program Schedule",
     "keynotes": "Keynotes",
+    "announcement": "Announcement",
     "authorInstructions": "Author Instructions",
-    "registration": "Registration",
     "contact": "Contact",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service",
-    "copyright": "© 2026 EBISION 2026. All rights reserved."
+    "copyright": "© {year} EBISION {year}. All rights reserved."
   },
   "HomePage": {
     "heroLabel": "IFIP WG 8.4",
-    "heroTitle": "EBISION 2026",
-    "heroDescription": "The 2nd IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution",
     "dateLabel": "Date:",
     "venueLabel": "Venue:",
     "collaboratorsLabel": "Collaborators",
     "collaboratorsTitle": "Organized & Supported By",
-    "organizerRole": "Organizer"
+    "organizerRole": "Organizer",
+    "inConjunctionWith": "In conjunction with"
   },
   "OverviewPage": {
     "label": "About",
     "title": "Overview",
-    "subtitle": "The 2nd IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution",
     "scopeTitle": "Scope",
-    "scopeDescription": "EBISION 2026 aims to publish high quality papers that are closely related to various theories and practical applications in E-Business Information Systems to highlight the state-of-art research. The symposium welcomes papers which are related to emerging technologies and their impact on E-Business ecosystems, digital transformation, and the future of information systems.",
+    "scopeDescription": "EBISION {year} aims to publish high quality papers that are closely related to various theories and practical applications in E-Business Information Systems to highlight the state-of-art research. The symposium welcomes papers which are related to emerging technologies and their impact on E-Business ecosystems, digital transformation, and the future of information systems.",
     "impactTitle": "Impact",
-    "impactDescription": "We expect that EBISION 2026 will be a catalyst for further research and technology improvements related to this important subject, fostering collaboration between academia and industry in addressing the challenges and opportunities of the digital great transformation.",
+    "impactDescription": "We expect that EBISION {year} will be a catalyst for further research and technology improvements related to this important subject, fostering collaboration between academia and industry in addressing the challenges and opportunities of the digital great transformation.",
     "ctaTitle": "Ready to Submit Your Paper?",
     "ctaDescription": "Download the complete Call for Papers document for detailed submission guidelines, topics of interest, and important deadlines.",
     "downloadCfp": "Download Call for Papers"
@@ -72,7 +65,7 @@
   "OrganizationPage": {
     "label": "People",
     "title": "Symposium Organization",
-    "subtitle": "Meet the team behind EBISION 2026",
+    "subtitle": "Meet the team behind EBISION {year}",
     "organizedBy": "Organized and Hosted by IFIP WG 8.4 — E-Business Information Systems",
     "members": "members"
   },
@@ -81,20 +74,21 @@
     "title": "Previous Events",
     "hostLocations": "Host Locations",
     "upcomingLabel": "Upcoming",
-    "upcomingTitle": "EBISION 2026",
-    "upcomingSubtitle": "The 2nd IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution",
+    "upcomingTitle": "EBISION {year}",
+    "upcomingSubtitle": "The {edition} IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution",
     "datesLabel": "Dates",
     "venueLabel": "Venue",
     "locationLabel": "Location",
     "organizedByLabel": "Organized by",
     "proceedingsLabel": "Proceedings",
     "inConjunctionLabel": "In conjunction with",
-    "visitWebsite": "Visit EBISION {year} Website"
+    "visitWebsite": "Visit EBISION {year} Website",
+    "past": "Past"
   },
   "AuthorInstructionPage": {
     "label": "For Authors",
     "title": "Author Instructions",
-    "subtitle": "Guidelines for preparing and submitting papers to EBISION 2026",
+    "subtitle": "Guidelines for preparing and submitting papers to EBISION {year}",
     "generalRequirements": "General Requirements",
     "paperSubmission": "Paper Submission",
     "fileFormat": "File Format",
@@ -102,12 +96,12 @@
     "importantDates": "Important Dates",
     "quickReference": "Quick Reference",
     "ctaTitle": "Questions?",
-    "ctaDescription": "For further information about submissions, please contact the EBISION 2026 cyber chair"
+    "ctaDescription": "For further information about submissions, please contact the EBISION {year} cyber chair"
   },
   "AnnouncementPage": {
     "label": "Announcement",
     "title": "Awards Nomination",
-    "subtitle": "EBISION 2026 invites nominations for awards recognizing outstanding contributions to research, service, and academic leadership within the field of E-Business Information Systems.",
+    "subtitle": "EBISION {year} invites nominations for awards recognizing outstanding contributions to research, service, and academic leadership within the field of E-Business Information Systems.",
     "awardCategories": "Award Categories",
     "autoConsidered": "Auto-considered",
     "nominationRequired": "Nomination required",
@@ -120,25 +114,25 @@
     "nominationDeadline": "Nomination Deadline",
     "awardNotification": "Award Notification",
     "awardCeremony": "Award Ceremony",
-    "attendanceNote": "All award recipients must register for and attend EBISION 2026 at Kookmin University, Seoul, South Korea (July 8–10, 2026) to receive recognition.",
+    "attendanceNote": "All award recipients must register for and attend EBISION {year} at {venue}, {location} ({dates}) to receive recognition.",
     "ctaTitle": "Questions?",
-    "ctaDescription": "For questions about the nomination process, please contact the EBISION 2026 cyber chair"
+    "ctaDescription": "For questions about the nomination process, please contact the EBISION {year} cyber chair"
   },
   "ContactPage": {
     "label": "Get in Touch",
     "title": "Contact Us",
-    "subtitle": "Have questions about EBISION 2026? Reach out to our organizing committee for assistance with submissions, registration, or general inquiries.",
+    "subtitle": "Have questions about EBISION {year}? Reach out to our organizing committee for assistance with submissions, registration, or general inquiries.",
     "generalInquiries": "General Inquiries",
-    "generalInquiriesDescription": "For questions about the conference, submissions, registration, or any other inquiries, please contact the EBISION 2026 cyber chair.",
+    "generalInquiriesDescription": "For questions about the conference, submissions, registration, or any other inquiries, please contact the EBISION {year} cyber chair.",
     "conferenceInfo": "Conference Information",
     "conferenceDates": "Conference Dates",
     "responseNote": "We look forward to hearing from you and will respond to your inquiry as soon as possible.",
     "ctaTitle": "Ready to Contribute?",
-    "ctaDescription": "Submit your research to EBISION 2026 and join leading researchers in advancing E-Business Information Systems."
+    "ctaDescription": "Submit your research to EBISION {year} and join leading researchers in advancing E-Business Information Systems."
   },
   "KeynotesPage": {
     "title": "Keynote Speakers",
-    "subtitle": "Meet our distinguished keynote speakers for EBISION 2026 who will share their expertise and insights on cutting-edge topics.",
+    "subtitle": "Meet our distinguished keynote speakers for EBISION {year} who will share their expertise and insights on cutting-edge topics.",
     "specialSessionTitle": "Special Session Invited Speaker",
     "specialSessionSubtitle": "Join our special session with an invited expert sharing unique perspectives and insights.",
     "abstract": "Abstract",

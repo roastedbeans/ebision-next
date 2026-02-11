@@ -4,6 +4,7 @@ import { CalendarDays, Download, MapPin } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { CURRENT_YEAR, isValidYear, YEAR_CONFIG } from "@/constants/config";
 import type {
   ConferenceDay,
   ConferenceInfo,
@@ -19,7 +20,7 @@ import ScheduleGrid from "./ScheduleGrid";
 import SpeakerModal from "./SpeakerModal";
 
 interface ProgramPageProps {
-  conferenceName?: string;
+  year?: number;
 }
 
 // Function to properly parse CSV with quoted fields
@@ -60,7 +61,7 @@ const parseCSVLine = (line: string): string[] => {
 };
 
 // Function to parse CSV data into ConferenceSchedule format
-const parseCSVToSchedule = (csvText: string, conferenceName: string): ConferenceSchedule | null => {
+const parseCSVToSchedule = (csvText: string, year: number): ConferenceSchedule | null => {
   const lines = csvText.trim().split("\n");
   if (lines.length < 2) return null;
 
@@ -83,26 +84,15 @@ const parseCSVToSchedule = (csvText: string, conferenceName: string): Conference
     return h * 60 + m;
   };
 
-  // Extract conference info based on conference name
-  let conference: ConferenceInfo;
-  if (conferenceName.toLowerCase().includes("ebision")) {
-    conference = {
-      name: "EBISION",
-      fullName:
-        "The 2nd IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution",
-      dates: "TBD, 2026",
-      location: "TBD",
-      venue: "TBD",
-    };
-  } else {
-    conference = {
-      name: "MobiSec",
-      fullName: "The 10th International Conference on Mobile Internet Security",
-      dates: "TBD, 2026",
-      location: "TBD",
-      venue: "TBD",
-    };
-  }
+  // Extract conference info based on year config
+  const config = isValidYear(year) ? YEAR_CONFIG[year] : null;
+  const conference: ConferenceInfo = {
+    name: config?.conferenceName ?? `EBISION ${year}`,
+    fullName: `The ${config?.edition ?? ""} IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution`,
+    dates: config?.dates ?? `TBD, ${year}`,
+    location: config?.location ?? "TBD",
+    venue: config?.venue ?? "TBD",
+  };
 
   // Extract rooms
   const rooms: Room[] = [];
@@ -114,20 +104,10 @@ const parseCSVToSchedule = (csvText: string, conferenceName: string): Conference
   });
 
   // Create room objects based on known rooms
-  let knownRooms: Record<string, string>;
-  if (conferenceName.toLowerCase().includes("ebision")) {
-    knownRooms = {
-      "symphony-4f": "Symphony Room (4F)",
-      common: "Common Area",
-    };
-  } else {
-    knownRooms = {
-      "pbr-east": "Palace Ball Room (East)",
-      "pbr-west": "Palace Ball Room (West)",
-      crown: "Crown Room",
-      common: "Common Area",
-    };
-  }
+  const knownRooms: Record<string, string> = {
+    "symphony-4f": "Symphony Room (4F)",
+    common: "Common Area",
+  };
 
   roomSet.forEach((roomId) => {
     if (knownRooms[roomId as keyof typeof knownRooms]) {
@@ -231,7 +211,8 @@ const parseCSVToSchedule = (csvText: string, conferenceName: string): Conference
   };
 };
 
-const ProgramPage: React.FC<ProgramPageProps> = ({ conferenceName = "MobiSec" }) => {
+const ProgramPage: React.FC<ProgramPageProps> = ({ year = CURRENT_YEAR }) => {
+  const yearConfig = isValidYear(year) ? YEAR_CONFIG[year] : null;
   const [schedule, setSchedule] = useState<ConferenceSchedule | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -244,19 +225,14 @@ const ProgramPage: React.FC<ProgramPageProps> = ({ conferenceName = "MobiSec" })
         setLoading(true);
         setError(null);
 
-        // Determine which CSV file to load based on conference name
-        const csvFileName = conferenceName.toLowerCase().includes("ebision")
-          ? "ebision-table.csv"
-          : "mobisec-table.csv";
-
-        // Load the CSV file
-        const response = await fetch(`/data/2026/${csvFileName}`);
+        // Load the EBISION CSV schedule
+        const response = await fetch(`/data/${year}/ebision-table.csv`);
         if (!response.ok) {
           throw new Error(`Failed to load CSV: ${response.status}`);
         }
 
         const csvText = await response.text();
-        const parsedSchedule = parseCSVToSchedule(csvText, conferenceName);
+        const parsedSchedule = parseCSVToSchedule(csvText, year ?? CURRENT_YEAR);
 
         if (!parsedSchedule) {
           throw new Error("Failed to parse CSV data");
@@ -272,7 +248,7 @@ const ProgramPage: React.FC<ProgramPageProps> = ({ conferenceName = "MobiSec" })
     };
 
     loadCSVData();
-  }, [conferenceName]);
+  }, [year]);
 
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -323,7 +299,7 @@ const ProgramPage: React.FC<ProgramPageProps> = ({ conferenceName = "MobiSec" })
   if (!schedule || schedule.days.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <EmptySchedule conferenceName={schedule?.conference.name || conferenceName} />
+        <EmptySchedule conferenceName={schedule?.conference.name || `EBISION ${year}`} />
       </div>
     );
   }
@@ -351,16 +327,25 @@ const ProgramPage: React.FC<ProgramPageProps> = ({ conferenceName = "MobiSec" })
                 </p>
               </div>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="shrink-0 gap-2"
-              disabled
-              title="Timetable will be available closer to the conference"
-            >
-              <Download className="h-4 w-4" />
-              Coming Soon
-            </Button>
+            {yearConfig?.programBookUrl ? (
+              <Button variant="outline" size="sm" className="shrink-0 gap-2" asChild>
+                <a href={yearConfig.programBookUrl} download>
+                  <Download className="h-4 w-4" />
+                  Download Program Book
+                </a>
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                className="shrink-0 gap-2"
+                disabled
+                title="Timetable will be available closer to the conference"
+              >
+                <Download className="h-4 w-4" />
+                Coming Soon
+              </Button>
+            )}
           </div>
         </div>
 

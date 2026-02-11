@@ -1,19 +1,15 @@
 "use client";
 
-import ProgramNavigationBar from "@/components/ProgramNavigationBar";
 import ProgramPage from "@/modules/landing/program/ProgramPage";
+import { useYear } from "@/providers/year-provider";
 
-const conferences = [
-  { id: "mobisec", name: "MobiSec 2026" },
-  { id: "ebision", name: "EBISION 2026" },
-];
+export default function ProgramSchedulePage() {
+  const year = useYear();
 
-export default function ProgramSchedulePage({ conf }: { conf: "mobisec" | "ebision" }) {
   return (
     <div className="min-h-screen bg-background max-w-8xl">
-      <ProgramNavigationBar conferences={conferences} currentConf={conf} />
       <main>
-        <ProgramPage conferenceName={conf === "mobisec" ? "MobiSec" : "EBISION"} />
+        <ProgramPage year={year} />
       </main>
     </div>
   );

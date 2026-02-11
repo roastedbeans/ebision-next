@@ -1,9 +1,11 @@
 import { ImageResponse } from "next/og";
+import { CURRENT_YEAR, YEAR_CONFIG } from "@/constants/config";
 
 export const runtime = "edge";
 
-export const alt =
-  "EBISION 2026 — The 2nd IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution";
+const config = YEAR_CONFIG[CURRENT_YEAR];
+
+export const alt = `EBISION ${CURRENT_YEAR} — The ${config.edition} IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution`;
 
 export const size = {
   width: 1200,
@@ -63,7 +65,7 @@ export default function TwitterImage() {
           letterSpacing: "-1px",
         }}
       >
-        EBISION 2026
+        EBISION {CURRENT_YEAR}
       </div>
 
       {/* Subtitle */}
@@ -77,7 +79,7 @@ export default function TwitterImage() {
           marginBottom: "32px",
         }}
       >
-        The 2nd International Symposium on E-Business Information Systems Evolution
+        The {config.edition} International Symposium on E-Business Information Systems Evolution
       </div>
 
       {/* Divider */}
@@ -102,7 +104,7 @@ export default function TwitterImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span>July 8–10, 2026</span>
+          <span>{config.dates}</span>
         </div>
         <div
           style={{
@@ -113,7 +115,9 @@ export default function TwitterImage() {
           }}
         />
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span>Kookmin University, Seoul, South Korea</span>
+          <span>
+            {config.venue}, {config.location}
+          </span>
         </div>
       </div>
     </div>,

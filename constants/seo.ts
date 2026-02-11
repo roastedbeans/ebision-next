@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { CURRENT_YEAR, YEAR_CONFIG } from "@/constants/config";
 
-const SITE_URL = "https://ebision.ifip-wg84.org";
-const SITE_NAME = "EBISION 2026";
-const SITE_DESCRIPTION =
-  "The 2nd IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution — Kookmin University, Seoul, South Korea, July 8–10, 2026";
+const currentConfig = YEAR_CONFIG[CURRENT_YEAR];
 
-const OG_IMAGE = {
+export const SITE_URL = "https://ebision.ifip-wg84.org";
+export const SITE_NAME = `EBISION ${CURRENT_YEAR}`;
+export const SITE_DESCRIPTION = `The ${currentConfig.edition} IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution — ${currentConfig.venue}, ${currentConfig.location}, ${currentConfig.dates}`;
+
+export const OG_IMAGE = {
   url: `${SITE_URL}/opengraph-image`,
   width: 1200,
   height: 630,
-  alt: "EBISION 2026 — The 2nd IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution",
+  alt: `EBISION ${CURRENT_YEAR} — The ${currentConfig.edition} IFIP WG 8.4 International Symposium on E-Business Information Systems Evolution`,
   type: "image/png",
 };
 
@@ -22,14 +24,14 @@ export const sharedMetadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   keywords: [
-    "EBISION 2026",
+    `EBISION ${CURRENT_YEAR}`,
+    "EBISION",
     "IFIP WG 8.4",
     "E-Business Information Systems",
     "digital transformation",
     "international symposium",
-    "Kookmin University",
-    "Seoul",
-    "South Korea",
+    currentConfig.venue,
+    ...currentConfig.location.split(", "),
     "conference",
     "research",
     "AI",
@@ -39,7 +41,7 @@ export const sharedMetadata: Metadata = {
     "quantum computing",
   ],
   authors: [{ name: "IFIP Working Group 8.4" }],
-  creator: "EBISION 2026 Organizing Committee",
+  creator: `EBISION ${CURRENT_YEAR} Organizing Committee`,
   publisher: "IFIP Working Group 8.4",
   openGraph: {
     type: "website",
@@ -79,5 +81,3 @@ export const sharedMetadata: Metadata = {
     canonical: SITE_URL,
   },
 };
-
-export { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE };

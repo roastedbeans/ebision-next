@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import type { ValidYear } from "@/constants/config";
 import { loadData } from "@/lib/data";
 
 interface OrganizationMember {
@@ -49,8 +50,8 @@ const CompactMember = ({ member }: { member: OrganizationMember }) => (
   </div>
 );
 
-const OrganizationPage = async () => {
-  const organizations = await loadData<Organization[]>("organization");
+const OrganizationPage = async ({ year }: { year: ValidYear }) => {
+  const organizations = await loadData<Organization[]>("organization", year);
 
   // Split into leadership (small groups) and committee (large group)
   const leadershipRoles = organizations.filter((org) => org.members.length <= 4);
@@ -64,7 +65,7 @@ const OrganizationPage = async () => {
         <div className="max-w-8xl mx-auto flex flex-col gap-4">
           <h6 className="text-primary">{t("label")}</h6>
           <h1 className="text-foreground">{t("title")}</h1>
-          <p className="text-muted-foreground max-w-3xl">{t("subtitle")}</p>
+          <p className="text-muted-foreground max-w-3xl">{t("subtitle", { year })}</p>
         </div>
       </section>
 

@@ -2,13 +2,21 @@ import { ArrowRight, Download } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
-import { EBISION_2026_CFP_URL, EBISION_2026_SUBMISSION_URL } from "@/constants/config";
+import type { ValidYear } from "@/constants/config";
+import { YEAR_CONFIG } from "@/constants/config";
+import { loadData } from "@/lib/data";
+
+interface ConferenceData {
+  conferenceFullTitle: string;
+}
 
 const glassCard = "bg-card/60 backdrop-blur-xl border border-border/60 rounded-lg shadow-sm";
 
-const OverviewPage = async () => {
+const OverviewPage = async ({ year }: { year: ValidYear }) => {
   const t = await getTranslations("OverviewPage");
   const tCommon = await getTranslations("Common");
+  const yearConfig = YEAR_CONFIG[year];
+  const conf = await loadData<ConferenceData>("conference", year);
 
   return (
     <div className="flex flex-col">
@@ -17,7 +25,7 @@ const OverviewPage = async () => {
         <div className="max-w-8xl mx-auto flex flex-col gap-4">
           <h6 className="text-primary">{t("label")}</h6>
           <h1 className="text-foreground">{t("title")}</h1>
-          <p className="text-muted-foreground max-w-3xl">{t("subtitle")}</p>
+          <p className="text-muted-foreground max-w-3xl">{conf.conferenceFullTitle}</p>
         </div>
       </section>
 
@@ -39,7 +47,7 @@ const OverviewPage = async () => {
               infrastructures.
             </p>
             <p className="text-foreground">
-              As the flagship event of IFIP Working Group 8.4, EBISION 2026 provides an
+              As the flagship event of IFIP Working Group 8.4, EBISION {year} provides an
               international forum to explore this paradigm shift, share insights across disciplines,
               and envision the next stage of EBIS evolution. The symposium encourages contributions
               that highlight both theoretical advancements and practical success stories,
@@ -54,14 +62,14 @@ const OverviewPage = async () => {
                 <span className="w-1.5 h-6 bg-primary rounded-full mr-4" />
                 {t("scopeTitle")}
               </h3>
-              <p className="text-muted-foreground">{t("scopeDescription")}</p>
+              <p className="text-muted-foreground">{t("scopeDescription", { year })}</p>
             </div>
             <div className={`${glassCard} p-6 sm:p-8 flex flex-col gap-4`}>
               <h3 className="text-foreground flex items-center">
                 <span className="w-1.5 h-6 bg-primary rounded-full mr-4" />
                 {t("impactTitle")}
               </h3>
-              <p className="text-muted-foreground">{t("impactDescription")}</p>
+              <p className="text-muted-foreground">{t("impactDescription", { year })}</p>
             </div>
           </div>
         </div>
@@ -84,13 +92,13 @@ const OverviewPage = async () => {
               <p className="text-primary-foreground/80 max-w-2xl">{t("ctaDescription")}</p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button asChild variant="secondaryOutline">
-                  <Link href={EBISION_2026_CFP_URL} target="_blank">
+                  <Link href={yearConfig.cfpUrl} target="_blank">
                     <Download className="h-4 w-4" />
                     {t("downloadCfp")}
                   </Link>
                 </Button>
                 <Button asChild variant="secondary">
-                  <Link href={EBISION_2026_SUBMISSION_URL} target="_blank">
+                  <Link href={yearConfig.submissionUrl} target="_blank">
                     {tCommon("submitPaper")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>

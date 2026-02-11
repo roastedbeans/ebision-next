@@ -2,6 +2,7 @@ import { ExternalLink, MapPin, Navigation } from "lucide-react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
+import type { ValidYear } from "@/constants/config";
 import { loadData } from "@/lib/data";
 
 interface VenueData {
@@ -19,9 +20,9 @@ interface VenueData {
   image: { src: string; alt: string };
 }
 
-const Venue = async () => {
+const Venue = async ({ year }: { year: ValidYear }) => {
   const t = await getTranslations("Venue");
-  const venueLocation = await loadData<VenueData>("venue");
+  const venueLocation = await loadData<VenueData>("venue", year);
 
   return (
     <div className="flex flex-col gap-8">

@@ -2,6 +2,24 @@ import { ArrowRight, Award, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
+import type { ValidYear } from "@/constants/config";
+import { loadData } from "@/lib/data";
+
+interface ConferenceData {
+  conferenceName: string;
+  dates: string;
+  venue: string;
+  location: string;
+}
+
+interface AnnouncementDate {
+  title: string;
+  date: string;
+}
+
+interface AnnouncementData {
+  importantDates: AnnouncementDate[];
+}
 
 const glassCard = "bg-card/60 backdrop-blur-xl border border-border/60 rounded-lg shadow-sm";
 
@@ -45,7 +63,7 @@ const AWARD_CATEGORIES = [
     id: "1-6",
     title: "Industry Pioneer Award",
     description:
-      "This award celebrates an individual or team from the industry sector who has successfully initiated and implemented groundbreaking industrial innovation within the E-Business Information Systems field. The recipient\u2019s work must demonstrate practical success, measurable impact, and significant advancement of industry standards or practices. Final award recipients are required to deliver a 5-minute presentation on their innovation achievements during the Industrial & Innovation Session at EBISION 2026.",
+      "This award celebrates an individual or team from the industry sector who has successfully initiated and implemented groundbreaking industrial innovation within the E-Business Information Systems field. The recipient\u2019s work must demonstrate practical success, measurable impact, and significant advancement of industry standards or practices. Final award recipients are required to deliver a 5-minute presentation on their innovation achievements during the Industrial & Innovation Session.",
     autoNomination: false,
   },
 ];
@@ -59,9 +77,11 @@ const NOMINATION_REQUIREMENTS = [
   "[For Industry Pioneer Award only] A maximum of 5 slides showcasing the innovation achievements in the E-Business Information System",
 ];
 
-const AnnouncementPage = async () => {
+const AnnouncementPage = async ({ year }: { year: ValidYear }) => {
   const t = await getTranslations("AnnouncementPage");
   const tCommon = await getTranslations("Common");
+  const conf = await loadData<ConferenceData>("conference", year);
+  const announcementData = await loadData<AnnouncementData>("announcement", year);
 
   return (
     <div className="flex flex-col">
@@ -70,7 +90,7 @@ const AnnouncementPage = async () => {
         <div className="max-w-8xl mx-auto flex flex-col gap-4">
           <h6 className="text-primary">{t("label")}</h6>
           <h1 className="text-foreground">{t("title")}</h1>
-          <p className="text-muted-foreground max-w-3xl">{t("subtitle")}</p>
+          <p className="text-muted-foreground max-w-3xl">{t("subtitle", { year })}</p>
         </div>
       </section>
 
@@ -155,7 +175,7 @@ const AnnouncementPage = async () => {
             </h3>
             <p className="text-muted-foreground mb-6">{t("submissionDescription")}</p>
             <Button asChild size="lg">
-              <Link href="/portal">
+              <Link href={`/${year}/portal`}>
                 {t("goToPortal")}
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -180,11 +200,7 @@ const AnnouncementPage = async () => {
               {t("importantDates")}
             </h3>
             <ol className="relative ml-4">
-              {[
-                { title: t("nominationDeadline"), date: "TBD, 2026 (KST/JST)" },
-                { title: t("awardNotification"), date: "TBD, 2026 (KST/JST)" },
-                { title: t("awardCeremony"), date: "TBD, 2026" },
-              ].map((item, index, arr) => {
+              {announcementData.importantDates.map((item, index, arr) => {
                 const isLast = index === arr.length - 1;
                 return (
                   <li key={index} className={`relative pl-8 ${isLast ? "" : "pb-8"}`}>
@@ -205,7 +221,13 @@ const AnnouncementPage = async () => {
             </ol>
             <div className="mt-6 p-4 bg-accent/40 rounded-lg">
               <small className="text-foreground">
-                <strong>Note:</strong> {t("attendanceNote")}
+                <strong>Note:</strong>{" "}
+                {t("attendanceNote", {
+                  year,
+                  venue: conf.venue,
+                  location: conf.location,
+                  dates: conf.dates,
+                })}
               </small>
             </div>
           </div>
@@ -226,13 +248,13 @@ const AnnouncementPage = async () => {
             />
             <div className="relative text-center flex flex-col gap-6 items-center">
               <h2 className="text-primary-foreground">{t("ctaTitle")}</h2>
-              <p className="text-primary-foreground/80">{t("ctaDescription")}</p>
+              <p className="text-primary-foreground/80">{t("ctaDescription", { year })}</p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button asChild variant="secondaryOutline">
                   <Link href={`mailto:${tCommon("email")}`}>{tCommon("email")}</Link>
                 </Button>
                 <Button asChild variant="secondary">
-                  <Link href="/portal">
+                  <Link href={`/${year}/portal`}>
                     {t("goToPortal")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>

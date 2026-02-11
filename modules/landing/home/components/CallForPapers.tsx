@@ -2,11 +2,8 @@ import { ArrowRight, CheckCircle, Download } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
-import {
-  EBISION_2026_CFP_LEAFLET_URL,
-  EBISION_2026_CFP_URL,
-  EBISION_2026_SUBMISSION_URL,
-} from "@/constants/config";
+import type { ValidYear } from "@/constants/config";
+import { YEAR_CONFIG } from "@/constants/config";
 import { loadData } from "@/lib/data";
 
 const glassCard = "bg-background/10 backdrop-blur-sm border border-border/60 rounded-lg";
@@ -40,10 +37,11 @@ interface CallForPapersData {
   contact: { email: string; message: string };
 }
 
-const CallForPapers = async () => {
+const CallForPapers = async ({ year }: { year: ValidYear }) => {
   const t = await getTranslations("CallForPapers");
   const tCommon = await getTranslations("Common");
-  const callForPapersData = await loadData<CallForPapersData>("call-for-papers");
+  const callForPapersData = await loadData<CallForPapersData>("call-for-papers", year);
+  const yearConfig = YEAR_CONFIG[year];
   return (
     <div className="flex flex-col gap-14">
       {/* Header */}
@@ -53,7 +51,7 @@ const CallForPapers = async () => {
         <p className="text-muted-foreground max-w-xl">{callForPapersData.description}</p>
         <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2">
           <a
-            href={EBISION_2026_CFP_URL}
+            href={yearConfig.cfpUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 underline underline-offset-4 transition-colors"
@@ -62,7 +60,7 @@ const CallForPapers = async () => {
             Full Call for Papers (PDF)
           </a>
           <a
-            href={EBISION_2026_CFP_LEAFLET_URL}
+            href={yearConfig.cfpLeafletUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 underline underline-offset-4 transition-colors"
@@ -168,10 +166,10 @@ const CallForPapers = async () => {
         </h3>
         <p className="text-foreground">
           All papers must be original and not simultaneously submitted to another journal or
-          conference. The contributions to EBISION 2026 must be submitted to the conference
+          conference. The contributions to EBISION {year} must be submitted to the conference
           submission system:{" "}
           <a
-            href={EBISION_2026_SUBMISSION_URL}
+            href={yearConfig.submissionUrl}
             className="text-primary hover:text-primary/80 underline font-medium"
             target="_blank"
             rel="noopener noreferrer"
@@ -223,12 +221,12 @@ const CallForPapers = async () => {
         </ul>
         <div className="flex flex-col sm:flex-row items-center gap-4 pt-6 border-t border-border/60">
           <Button asChild variant="outline">
-            <Link href="/author-instruction">{tCommon("authorInstructions")}</Link>
+            <Link href={`/${year}/author-instruction`}>{tCommon("authorInstructions")}</Link>
           </Button>
           <p className="text-muted-foreground">
             For detailed guidelines, visit the{" "}
             <Link
-              href="/author-instruction"
+              href={`/${year}/author-instruction`}
               className="text-primary hover:text-primary/80 underline"
             >
               Author Instructions page
@@ -286,17 +284,29 @@ const CallForPapers = async () => {
             {callForPapersData.callToAction.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button asChild variant="secondaryOutline">
-              <Link href={callForPapersData.callToAction.buttons[0].link}>
-                {callForPapersData.callToAction.buttons[0].text}
-              </Link>
-            </Button>
-            <Button asChild variant="secondary">
-              <Link href={callForPapersData.callToAction.buttons[1].link}>
-                {callForPapersData.callToAction.buttons[1].text}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
+            {callForPapersData.callToAction.buttons.map((btn, index) => {
+              const href = btn.link.startsWith("/") ? `/${year}${btn.link}` : btn.link;
+              const isExternal = btn.link.startsWith("http");
+              return (
+                <Button
+                  key={index}
+                  asChild
+                  variant={index === 0 ? "secondaryOutline" : "secondary"}
+                >
+                  {isExternal ? (
+                    <a href={href} target="_blank" rel="noopener noreferrer">
+                      {btn.text}
+                      {index > 0 && <ArrowRight className="h-4 w-4" />}
+                    </a>
+                  ) : (
+                    <Link href={href}>
+                      {btn.text}
+                      {index > 0 && <ArrowRight className="h-4 w-4" />}
+                    </Link>
+                  )}
+                </Button>
+              );
+            })}
           </div>
         </div>
       </div>
