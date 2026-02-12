@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import type { ValidYear } from "@/constants/config";
+import { YEAR_CONFIG } from "@/constants/config";
+import { SITE_URL } from "@/constants/seo";
 import ProgramSchedulePage from "@/modules/landing/program/ProgramSchedulePage";
 
 interface PageProps {
@@ -7,17 +10,24 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { year } = await params;
+  const config = YEAR_CONFIG[Number(year) as ValidYear];
+  const pageUrl = `${SITE_URL}/${year}/program`;
+  const description = `View the EBISION ${year} program schedule. Conference sessions, keynote talks, and paper presentations. ${config.venue}, ${config.location}, ${config.dates}.`;
+
   return {
     title: "Program Schedule",
-    description: `View the EBISION ${year} program schedule. Conference sessions, keynote talks, and paper presentations.`,
-    keywords: [`EBISION ${year} program`, "conference schedule", "session program"],
+    description,
+    keywords: [`EBISION ${year} program`, "conference schedule", "session program", config.venue],
     openGraph: {
-      title: `Program Schedule — EBISION ${year}`,
-      description: `View the EBISION ${year} program schedule.`,
+      url: pageUrl,
+      title: `Program Schedule | EBISION ${year}`,
+      description,
+      images: [`${SITE_URL}/${year}/opengraph-image`],
     },
     twitter: {
-      title: `Program Schedule — EBISION ${year}`,
-      description: `View the EBISION ${year} program schedule.`,
+      title: `Program Schedule | EBISION ${year}`,
+      description,
+      images: [`${SITE_URL}/${year}/opengraph-image`],
     },
     alternates: { canonical: `/${year}/program` },
   };

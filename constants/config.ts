@@ -17,11 +17,13 @@ export function isValidYear(year: unknown): year is ValidYear {
 export type NavRouteKey =
   | "home"
   | "overview"
+  | "proceedings"
   | "organization"
   | "previousEvents"
   | "program"
   | "keynotes"
   | "announcement"
+  | "rollOfHonors"
   | "authorInstructions"
   | "contact"
   | "lifetimeAchievement";

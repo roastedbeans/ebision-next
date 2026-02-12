@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { VALID_YEARS, type ValidYear, YEAR_CONFIG } from "@/constants/config";
 import { SITE_URL } from "@/constants/seo";
@@ -5,6 +6,26 @@ import { YearProvider } from "@/providers/year-provider";
 
 export function generateStaticParams() {
   return VALID_YEARS.map((year) => ({ year: String(year) }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ year: string }>;
+}): Promise<Metadata> {
+  const { year } = await params;
+  const yearNum = Number(year);
+
+  if (!VALID_YEARS.includes(yearNum as ValidYear)) {
+    return {};
+  }
+
+  return {
+    title: {
+      template: `%s | EBISION ${year}`,
+      default: `EBISION ${year}`,
+    },
+  };
 }
 
 export default async function YearLayout({

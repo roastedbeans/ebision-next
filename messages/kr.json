@@ -15,12 +15,16 @@
   "Navbar": {
     "home": "홈",
     "overview": "개요",
+    "proceedings": "온라인 논문집",
     "organization": "조직위원회",
     "previousEvents": "이전 행사",
     "program": "프로그램",
     "keynotes": "기조연설",
     "lifetimeAchievement": "공로상",
+    "awards": "시상",
     "announcement": "공지사항",
+    "rollOfHonors": "명예의 전당",
+    "awardRecipients": "시상 수상자",
     "authorInstructions": "저자 안내",
     "contact": "문의",
     "openMenu": "메뉴 열기",
@@ -30,6 +34,7 @@
   "Footer": {
     "about": "소개",
     "program": "프로그램",
+    "awards": "시상",
     "participate": "참여",
     "overview": "개요",
     "organization": "조직위원회",
@@ -38,11 +43,14 @@
     "programSchedule": "프로그램 일정",
     "keynotes": "기조연설",
     "announcement": "공지사항",
+    "rollOfHonors": "명예의 전당",
+    "awardRecipients": "시상 수상자",
     "authorInstructions": "저자 안내",
     "contact": "문의",
     "copyright": "© {year} EBISION {year}. All rights reserved."
   },
   "HomePage": {
+    "goToUpcomingEvent": "EBISION {year}으로 이동",
     "heroLabel": "IFIP WG 8.4",
     "dateLabel": "일시:",
     "venueLabel": "장소:",
@@ -97,6 +105,16 @@
     "quickReference": "빠른 참조",
     "ctaTitle": "문의사항이 있으신가요?",
     "ctaDescription": "제출에 관한 자세한 정보는 EBISION {year} 사이버 의장에게 문의하세요"
+  },
+  "AwardRecipientsPage": {
+    "label": "시상",
+    "title": "명예의 전당",
+    "subtitle": "E-Business Information Systems 분야에 탁월한 기여를 한 EBISION {year} 시상 수상자를 축하합니다.",
+    "recipient": "수상자",
+    "authors": "저자",
+    "technology": "기술",
+    "emptyTitle": "명예의 전당은 곧 공지됩니다",
+    "emptyDescription": "EBISION {year} 명예의 전당은 심포지엄 이후 공지됩니다. 업데이트는 나중에 확인해 주세요."
   },
   "AnnouncementPage": {
     "label": "공지",
@@ -153,5 +171,26 @@
     "aboutVenue": "행사장 소개",
     "gettingThere": "오시는 길",
     "visitOfficialWebsite": "공식 웹사이트 방문"
+  },
+  "ProceedingsPage": {
+    "label": "컨퍼런스",
+    "title": "온라인 논문집",
+    "subtitle": "전체 논문 컬렉션과 함께 출판된 컨퍼런스 논문집을 검색하고 이용하세요.",
+    "backToHome": "EBISION으로 돌아가기",
+    "backToProgramBook": "온라인 논문집으로 돌아가기",
+    "empty": "아직 논문집이 없습니다",
+    "viewProgramBook": "논문집 보기",
+    "notFoundTitle": "논문집을 찾을 수 없습니다",
+    "notFoundDescription": "찾으시는 논문집이 존재하지 않습니다.",
+    "searchPlaceholder": "제목, 저자, 기관으로 논문 검색...",
+    "noSearchResults": "검색 조건에 맞는 논문이 없습니다",
+    "noPapers": "이 논문집에 논문이 없습니다",
+    "papers": "편",
+    "presentationTypes": "발표 유형",
+    "passwordPrompt": "비밀번호 필요",
+    "passwordDialogDescription": "온라인 논문집과 논문을 보려면 비밀번호를 입력하세요.",
+    "passwordPlaceholder": "비밀번호",
+    "passwordSubmit": "입장",
+    "passwordError": "잘못된 비밀번호입니다"
   }
 }

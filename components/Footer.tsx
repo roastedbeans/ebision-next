@@ -12,6 +12,7 @@ interface ConferenceData {
 const categoryKeys = {
   about: "about",
   program: "program",
+  awards: "awards",
   participate: "participate",
 } as const;
 
@@ -49,12 +50,19 @@ const Footer = async ({ year }: { year: ValidYear }) => {
       },
       { key: "keynotes" as const, href: `/${year}/keynotes`, disabled: isDisabled("keynotes") },
     ],
-    participate: [
+    awards: [
       {
         key: "announcement" as const,
         href: `/${year}/announcement`,
         disabled: isDisabled("announcement"),
       },
+      {
+        key: "rollOfHonors" as const,
+        href: `/${year}/roll-of-honors`,
+        disabled: isDisabled("rollOfHonors"),
+      },
+    ],
+    participate: [
       {
         key: "authorInstructions" as const,
         href: `/${year}/author-instruction`,
@@ -85,7 +93,7 @@ const Footer = async ({ year }: { year: ValidYear }) => {
           </div>
 
           {/* Link Columns */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
             {(
               Object.entries(footerLinks) as [
                 keyof typeof categoryKeys,

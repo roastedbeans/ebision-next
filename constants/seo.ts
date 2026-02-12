@@ -77,7 +77,5 @@ export const sharedMetadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  alternates: {
-    canonical: SITE_URL,
-  },
+  // Canonical is set per-page via generateMetadata; avoid wrong default here
 };

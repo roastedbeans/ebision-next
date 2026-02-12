@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { ValidYear } from "@/constants/config";
+import { YEAR_CONFIG } from "@/constants/config";
+import { SITE_URL } from "@/constants/seo";
 import AnnouncementPage from "@/modules/landing/announcement/components/AnnouncementPage";
 
 interface PageProps {
@@ -8,17 +10,29 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { year } = await params;
+  const config = YEAR_CONFIG[Number(year) as ValidYear];
+  const pageUrl = `${SITE_URL}/${year}/announcement`;
+  const description = `EBISION ${year} Awards Nomination — Best Paper, Best Student Paper, Exemplary Lecturer, Young Researcher, Promising Graduate Student, Industry Pioneer. ${config.venue}, ${config.dates}.`;
+
   return {
     title: "Awards Nomination",
-    description: `EBISION ${year} Awards Nomination — Best Paper, Best Student Paper, Exemplary Lecturer, Young Researcher, Promising Graduate Student, and Industry Pioneer Awards.`,
-    keywords: [`EBISION ${year} awards`, "awards nomination", "best paper award"],
+    description,
+    keywords: [
+      `EBISION ${year} awards`,
+      "awards nomination",
+      "best paper award",
+      "conference awards",
+    ],
     openGraph: {
-      title: `Awards Nomination — EBISION ${year}`,
-      description: `EBISION ${year} Awards Nomination. Learn about award categories and nomination requirements.`,
+      url: pageUrl,
+      title: `Awards Nomination | EBISION ${year}`,
+      description,
+      images: [`${SITE_URL}/${year}/opengraph-image`],
     },
     twitter: {
-      title: `Awards Nomination — EBISION ${year}`,
-      description: `EBISION ${year} Awards Nomination.`,
+      title: `Awards Nomination | EBISION ${year}`,
+      description,
+      images: [`${SITE_URL}/${year}/opengraph-image`],
     },
     alternates: { canonical: `/${year}/announcement` },
   };

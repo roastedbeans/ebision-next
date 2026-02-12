@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ValidYear } from "@/constants/config";
+import { SITE_URL } from "@/constants/seo";
 import PreviousEventsPage from "@/modules/landing/previous-events/components/PreviousEventsPage";
 
 interface PageProps {
@@ -8,18 +9,30 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { year } = await params;
+  const pageUrl = `${SITE_URL}/${year}/previous-events`;
+  const description =
+    "Explore the history of EBISION conferences. View past events, host locations, proceedings, and the upcoming edition.";
+
   return {
     title: "Previous Events",
-    description:
-      "Explore the history of EBISION conferences. View past events, host locations, and proceedings.",
-    keywords: ["EBISION previous events", "EBISION history", "past conferences"],
+    description,
+    keywords: [
+      `EBISION ${year}`,
+      "EBISION previous events",
+      "EBISION history",
+      "past conferences",
+      "IFIP WG 8.4",
+    ],
     openGraph: {
-      title: `Previous Events — EBISION ${year}`,
-      description: "Explore the history of EBISION conferences.",
+      url: pageUrl,
+      title: `Previous Events | EBISION ${year}`,
+      description,
+      images: [`${SITE_URL}/${year}/opengraph-image`],
     },
     twitter: {
-      title: `Previous Events — EBISION ${year}`,
-      description: "Explore the history of EBISION conferences.",
+      title: `Previous Events | EBISION ${year}`,
+      description,
+      images: [`${SITE_URL}/${year}/opengraph-image`],
     },
     alternates: { canonical: `/${year}/previous-events` },
   };

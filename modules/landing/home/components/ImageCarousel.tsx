@@ -5,12 +5,13 @@ import { useRef } from "react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
 const images = [
-  { src: "/assets/images/1.png", alt: "EBISION Conference 1" },
-  { src: "/assets/images/2.png", alt: "EBISION Conference 2" },
-  { src: "/assets/images/3.png", alt: "EBISION Conference 3" },
-  { src: "/assets/images/4.png", alt: "EBISION Conference 4" },
-  { src: "/assets/images/5.png", alt: "EBISION Conference 5" },
-  { src: "/assets/images/6.png", alt: "EBISION Conference 6" },
+  { src: "/assets/images/1.jpeg", alt: "EBISION Conference 1" },
+  { src: "/assets/images/2.jpeg", alt: "EBISION Conference 2" },
+  { src: "/assets/images/3.jpeg", alt: "EBISION Conference 3" },
+  { src: "/assets/images/4.jpg", alt: "EBISION Conference 4" },
+  { src: "/assets/images/5.jpeg", alt: "EBISION Conference 5" },
+  { src: "/assets/images/6.jpeg", alt: "EBISION Conference 6" },
+  { src: "/assets/images/7.jpg", alt: "EBISION Conference 7" },
 ];
 
 const ImageCarousel = () => {

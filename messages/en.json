@@ -15,12 +15,16 @@
   "Navbar": {
     "home": "Home",
     "overview": "Overview",
+    "proceedings": "Online Proceedings",
     "organization": "Organization",
     "previousEvents": "Previous Events",
     "program": "Program",
     "keynotes": "Keynotes",
     "lifetimeAchievement": "Lifetime Achievement",
+    "awards": "Awards",
     "announcement": "Announcement",
+    "rollOfHonors": "Roll of Honors",
+    "awardRecipients": "Award Recipients",
     "authorInstructions": "Author Instructions",
     "contact": "Contact",
     "openMenu": "Open menu",
@@ -30,6 +34,7 @@
   "Footer": {
     "about": "About",
     "program": "Program",
+    "awards": "Awards",
     "participate": "Participate",
     "overview": "Overview",
     "organization": "Organization",
@@ -38,11 +43,14 @@
     "programSchedule": "Program Schedule",
     "keynotes": "Keynotes",
     "announcement": "Announcement",
+    "rollOfHonors": "Roll of Honors",
+    "awardRecipients": "Award Recipients",
     "authorInstructions": "Author Instructions",
     "contact": "Contact",
     "copyright": "© {year} EBISION {year}. All rights reserved."
   },
   "HomePage": {
+    "goToUpcomingEvent": "Go to EBISION {year}",
     "heroLabel": "IFIP WG 8.4",
     "dateLabel": "Date:",
     "venueLabel": "Venue:",
@@ -97,6 +105,16 @@
     "quickReference": "Quick Reference",
     "ctaTitle": "Questions?",
     "ctaDescription": "For further information about submissions, please contact the EBISION {year} cyber chair"
+  },
+  "AwardRecipientsPage": {
+    "label": "Awards",
+    "title": "Roll of Honors",
+    "subtitle": "Congratulations to the EBISION {year} award recipients for their outstanding contributions to E-Business Information Systems.",
+    "recipient": "Recipient",
+    "authors": "Authors",
+    "technology": "Technology",
+    "emptyTitle": "Roll of Honors will be announced soon",
+    "emptyDescription": "The Roll of Honors for EBISION {year} will be announced after the conference. Please check back later for updates."
   },
   "AnnouncementPage": {
     "label": "Announcement",
@@ -153,5 +171,26 @@
     "aboutVenue": "About the Venue",
     "gettingThere": "Getting There",
     "visitOfficialWebsite": "Visit Official Website"
+  },
+  "ProceedingsPage": {
+    "label": "Conference",
+    "title": "Online Proceedings",
+    "subtitle": "Browse and access published conference proceedings with full paper collections.",
+    "backToHome": "Back to EBISION",
+    "backToProgramBook": "Back to Online Proceedings",
+    "empty": "No proceedings available yet",
+    "viewProgramBook": "View Proceedings",
+    "notFoundTitle": "Proceedings not found",
+    "notFoundDescription": "The proceedings you are looking for does not exist.",
+    "searchPlaceholder": "Search papers by title, author, institution...",
+    "noSearchResults": "No papers found matching your search",
+    "noPapers": "No papers in this proceeding",
+    "papers": "Papers",
+    "presentationTypes": "Presentation Types",
+    "passwordPrompt": "Password required",
+    "passwordDialogDescription": "Enter the password to access the online proceedings and view papers.",
+    "passwordPlaceholder": "Password",
+    "passwordSubmit": "Access",
+    "passwordError": "Invalid password"
   }
 }

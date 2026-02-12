@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import type { ValidYear } from "@/constants/config";
+import { YEAR_CONFIG } from "@/constants/config";
+import { SITE_URL } from "@/constants/seo";
 import KeynotesPage from "@/modules/landing/keynotes/components/KeynotesPage";
 
 interface PageProps {
@@ -7,17 +10,24 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { year } = await params;
+  const config = YEAR_CONFIG[Number(year) as ValidYear];
+  const pageUrl = `${SITE_URL}/${year}/keynotes`;
+  const description = `Meet the distinguished keynote speakers at EBISION ${year}. ${config.venue}, ${config.location}, ${config.dates}.`;
+
   return {
     title: "Keynote Speakers",
-    description: `Meet the distinguished keynote speakers at EBISION ${year}.`,
-    keywords: [`EBISION ${year} keynotes`, "keynote speakers"],
+    description,
+    keywords: [`EBISION ${year} keynotes`, "keynote speakers", config.venue],
     openGraph: {
-      title: `Keynote Speakers — EBISION ${year}`,
-      description: `Meet the distinguished keynote speakers at EBISION ${year}.`,
+      url: pageUrl,
+      title: `Keynote Speakers | EBISION ${year}`,
+      description,
+      images: [`${SITE_URL}/${year}/opengraph-image`],
     },
     twitter: {
-      title: `Keynote Speakers — EBISION ${year}`,
-      description: `Meet the distinguished keynote speakers at EBISION ${year}.`,
+      title: `Keynote Speakers | EBISION ${year}`,
+      description,
+      images: [`${SITE_URL}/${year}/opengraph-image`],
     },
     alternates: { canonical: `/${year}/keynotes` },
   };

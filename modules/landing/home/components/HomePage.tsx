@@ -1,9 +1,9 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CalendarDays } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
-import type { ValidYear } from "@/constants/config";
+import { CURRENT_YEAR, type ValidYear } from "@/constants/config";
 import { loadData } from "@/lib/data";
 import CallForPapers from "./CallForPapers";
 import ImageCarousel from "./ImageCarousel";
@@ -52,7 +52,7 @@ const HomePage = async ({ year }: { year: ValidYear }) => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
               <Button asChild size="lg">
                 <Link href={`/${year}/author-instruction`}>
                   {tCommon("submitPaper")}
@@ -62,6 +62,14 @@ const HomePage = async ({ year }: { year: ValidYear }) => {
               <Button asChild variant="outline" size="lg">
                 <Link href={`/${year}/overview`}>{tCommon("learnMore")}</Link>
               </Button>
+              {year < CURRENT_YEAR && (
+                <Button asChild variant="secondary" size="lg">
+                  <Link href={`/${CURRENT_YEAR}`}>
+                    <CalendarDays className="h-4 w-4" />
+                    {t("goToUpcomingEvent", { year: String(CURRENT_YEAR) })}
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
 

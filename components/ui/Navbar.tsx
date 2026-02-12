@@ -38,6 +38,11 @@ export function Navbar() {
     { key: "home" as const, href: `/${year}`, disabled: isDisabled("home") },
     { key: "overview" as const, href: `/${year}/overview`, disabled: isDisabled("overview") },
     {
+      key: "proceedings" as const,
+      href: `/${year}/proceedings`,
+      disabled: isDisabled("proceedings"),
+    },
+    {
       key: "organization" as const,
       href: `/${year}/organization`,
       disabled: isDisabled("organization"),
@@ -49,6 +54,21 @@ export function Navbar() {
     },
   ];
 
+  const AWARDS_SUBNAV = [
+    {
+      key: "announcement" as const,
+      href: `/${year}/announcement`,
+      disabled: isDisabled("announcement"),
+    },
+    {
+      key: "rollOfHonors" as const,
+      href: `/${year}/roll-of-honors`,
+      disabled: isDisabled("rollOfHonors"),
+    },
+  ];
+
+  const awardsDisabled = AWARDS_SUBNAV.every((item) => item.disabled);
+
   const NAV_LINKS = [
     { key: "program" as const, href: `/${year}/program`, disabled: isDisabled("program") },
     { key: "keynotes" as const, href: `/${year}/keynotes`, disabled: isDisabled("keynotes") },
@@ -56,11 +76,6 @@ export function Navbar() {
       key: "lifetimeAchievement" as const,
       href: `/${year}/lifetime-achievement`,
       disabled: isDisabled("lifetimeAchievement"),
-    },
-    {
-      key: "announcement" as const,
-      href: `/${year}/announcement`,
-      disabled: isDisabled("announcement"),
     },
     {
       key: "authorInstructions" as const,
@@ -164,7 +179,7 @@ export function Navbar() {
               <Separator className="mx-4" />
 
               <div className="flex flex-col gap-1 px-4">
-                {NAV_LINKS.map((item) => (
+                {NAV_LINKS.slice(0, 3).map((item) => (
                   <SheetClose asChild key={item.key}>
                     {item.disabled ? (
                       <span
@@ -180,6 +195,62 @@ export function Navbar() {
                     ) : (
                       <Link
                         href={item.href}
+                        className="px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                      >
+                        {t(item.key)}
+                      </Link>
+                    )}
+                  </SheetClose>
+                ))}
+
+                {/* Awards submenu */}
+                <div className="pt-2">
+                  <p className="px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    {t("awards")}
+                  </p>
+                  {AWARDS_SUBNAV.map((item) => (
+                    <SheetClose asChild key={item.key}>
+                      {item.disabled ? (
+                        <span
+                          role="link"
+                          tabIndex={-1}
+                          className="block px-3 py-2 rounded-md text-sm font-medium text-muted-foreground/50 cursor-not-allowed ml-2"
+                          aria-disabled="true"
+                          onClick={(e) => e.preventDefault()}
+                          onKeyDown={(e) => e.preventDefault()}
+                        >
+                          {t(item.key)}
+                        </span>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="block px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors ml-2"
+                        >
+                          {t(item.key)}
+                        </Link>
+                      )}
+                    </SheetClose>
+                  ))}
+                </div>
+
+                {NAV_LINKS.slice(3).map((item) => (
+                  <SheetClose asChild key={item.key}>
+                    {item.disabled ? (
+                      <span
+                        role="link"
+                        tabIndex={-1}
+                        className="px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground/50 cursor-not-allowed"
+                        aria-disabled="true"
+                        onClick={(e) => e.preventDefault()}
+                        onKeyDown={(e) => e.preventDefault()}
+                      >
+                        {t(item.key)}
+                      </span>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
                         className="px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                       >
                         {t(item.key)}
@@ -235,7 +306,70 @@ export function Navbar() {
             </NavigationMenuItem>
 
             {/* Top-level links */}
-            {NAV_LINKS.map((item) => (
+            {NAV_LINKS.slice(0, 3).map((item) => (
+              <NavigationMenuItem key={item.key}>
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  {item.disabled ? (
+                    <span
+                      className={`${navigationMenuTriggerStyle()} opacity-40 cursor-not-allowed pointer-events-none`}
+                      aria-disabled="true"
+                    >
+                      <h6>{t(item.key)}</h6>
+                    </span>
+                  ) : (
+                    <Link href={item.href}>
+                      <h6>{t(item.key)}</h6>
+                    </Link>
+                  )}
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+
+            {/* Awards dropdown */}
+            <NavigationMenuItem>
+              {awardsDisabled ? (
+                <span
+                  className={`${navigationMenuTriggerStyle()} opacity-40 cursor-not-allowed pointer-events-none`}
+                  aria-disabled="true"
+                >
+                  <h6>{t("awards")}</h6>
+                </span>
+              ) : (
+                <>
+                  <NavigationMenuTrigger>
+                    <h6>{t("awards")}</h6>
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="flex gap-1 flex-1 w-full absolute top-0 left-0">
+                    {AWARDS_SUBNAV.map((item) => (
+                      <NavigationMenuLink asChild key={item.key} className="flex-1">
+                        {item.disabled ? (
+                          <div
+                            className="flex-1 flex flex-row items-center gap-3 text-nowrap py-20 justify-center cursor-not-allowed opacity-40"
+                            aria-disabled="true"
+                          >
+                            <div className="w-px h-4 bg-transparent" />
+                            <h6>{t(item.key)}</h6>
+                            <div className="w-px h-4 bg-transparent" />
+                          </div>
+                        ) : (
+                          <Link
+                            href={item.href}
+                            className="group/item flex-row flex-1 items-center gap-3 text-nowrap py-20 justify-center"
+                          >
+                            <div className="w-px h-4 group-hover/item:bg-primary bg-transparent transition-colors duration-300" />
+                            <h6>{t(item.key)}</h6>
+                            <div className="w-px h-4 group-hover/item:bg-primary bg-transparent transition-colors duration-300" />
+                          </Link>
+                        )}
+                      </NavigationMenuLink>
+                    ))}
+                  </NavigationMenuContent>
+                </>
+              )}
+            </NavigationMenuItem>
+
+            {/* Remaining top-level links */}
+            {NAV_LINKS.slice(3).map((item) => (
               <NavigationMenuItem key={item.key}>
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                   {item.disabled ? (
