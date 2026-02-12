@@ -35,10 +35,27 @@
         "date": "May 31, 2026 (KST/JST)",
         "color": "blue"
       }
+    ],
+    "posterPapers": [
+      {
+        "title": "Submission Deadline",
+        "date": "May 11, 2026",
+        "color": "green"
+      },
+      {
+        "title": "Acceptance Notification",
+        "date": "May 20, 2026",
+        "color": "yellow"
+      },
+      {
+        "title": "Final Version",
+        "date": "May 31, 2026",
+        "color": "blue"
+      }
     ]
   },
   "submissionGuidelines": {
-    "paperCategories": ["Original Research Papers"],
+    "paperCategories": ["Original Research Papers", "Poster Papers"],
     "requirements": [
       "Authors are invited to submit original papers. Submissions must not substantially overlap with work that any of the authors have published elsewhere, or that is simultaneously under review for another conference with proceedings.",
       "An accepted paper must be registered before the registration deadline and presented at the symposium. Failure to register by the deadline will result in automatic withdrawal of the paper from the proceedings and the program.",

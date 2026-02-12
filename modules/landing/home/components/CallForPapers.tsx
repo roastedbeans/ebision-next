@@ -8,12 +8,19 @@ import { loadData } from "@/lib/data";
 
 const glassCard = "bg-background/10 backdrop-blur-sm border border-border/60 rounded-lg";
 
+const subsectionBlock =
+  "pl-4 border-l-4 border-primary/50 bg-primary/5 dark:bg-primary/10 rounded-r-lg py-4 pr-4";
+
+const sectionHeader =
+  "flex items-center gap-3 mb-5 pb-3 border-b border-border/60 text-lg font-semibold";
+
 interface CallForPapersData {
   title: string;
   description: string;
   topics: string[];
   importantDates: {
     originalPapers: { title: string; date: string; color: string }[];
+    posterPapers?: { title: string; date: string; color: string }[];
   };
   submissionGuidelines: {
     paperCategories: string[];
@@ -71,19 +78,20 @@ const CallForPapers = async ({ year }: { year: ValidYear }) => {
         </div>
       </div>
 
-      {/* Important Dates + Submission Guidelines Row */}
+      {/* (1) Regular Paper & (2) Poster Paper — Two column */}
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Important Dates - Timeline */}
-        <div className={`${glassCard} p-6 sm:p-8 flex flex-col gap-6 w-full lg:w-1/2`}>
-          <h3 className="text-foreground flex items-center">
-            <span className="w-1.5 h-6 bg-primary rounded-full mr-4" />
-            {t("importantDatesTitle")}
-          </h3>
-          <div className="flex flex-col gap-2">
-            <h5 className="text-primary-foreground bg-primary px-4 py-2 rounded-md">
-              Original Papers
-            </h5>
-            <ol className="relative ml-4 mt-4">
+        {/* (1) Regular Paper */}
+        <div
+          className={`${glassCard} p-6 sm:p-8 flex flex-col gap-6 w-full ${
+            callForPapersData.importantDates.posterPapers?.length ? "lg:w-1/2" : "lg:w-full"
+          }`}
+        >
+          <h2 className={`${sectionHeader} text-foreground`}>{t("sectionRegularPaper")}</h2>
+          <div className={subsectionBlock}>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-3">
+              {t("importantDatesTitle")}
+            </p>
+            <ol className="relative ml-4">
               {callForPapersData.importantDates.originalPapers.map((dateItem, index) => {
                 const isLast = index === callForPapersData.importantDates.originalPapers.length - 1;
                 return (
@@ -104,66 +112,95 @@ const CallForPapers = async ({ year }: { year: ValidYear }) => {
               })}
             </ol>
           </div>
+          <div className={subsectionBlock}>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-3">
+              {t("submissionRequirementsTitle")}
+            </p>
+            <ul className="flex flex-col gap-2">
+              <li className="flex items-start gap-3">
+                <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
+                <p className="text-foreground">{t("regularRequirementAnonymous")}</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
+                <p className="text-foreground">{t("regularRequirementPdfFormat")}</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
+                <p className="text-foreground">{t("regularRequirementPageLength")}</p>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
+                <p className="text-foreground">{t("regularRequirementOriginal")}</p>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Submission Guidelines */}
-        <div className={`${glassCard} p-6 sm:p-8 flex flex-col gap-6 w-full lg:w-1/2`}>
-          <h3 className="text-foreground flex items-center">
-            <span className="w-1.5 h-6 bg-primary rounded-full mr-4" />
-            {t("submissionGuidelinesTitle")}
-          </h3>
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-3">
-              <h5 className="text-foreground">Paper Categories</h5>
-              <ul className="flex flex-col gap-2">
-                {callForPapersData.submissionGuidelines.paperCategories.map((category, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
-                    <p className="text-foreground flex-1">{category}</p>
-                  </li>
-                ))}
-              </ul>
+        {/* (2) Poster Paper */}
+        {callForPapersData.importantDates.posterPapers &&
+        callForPapersData.importantDates.posterPapers.length > 0 ? (
+          <div className={`${glassCard} p-6 sm:p-8 flex flex-col gap-6 w-full lg:w-1/2`}>
+            <h2 className={`${sectionHeader} text-foreground`}>{t("sectionPosterPaper")}</h2>
+            <div className={subsectionBlock}>
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-3">
+                {t("importantDatesTitle")}
+              </p>
+              <ol className="relative ml-4">
+                {callForPapersData.importantDates.posterPapers.map((dateItem, index) => {
+                  const isLast =
+                    index === (callForPapersData.importantDates.posterPapers?.length ?? 0) - 1;
+                  return (
+                    <li key={index} className={`relative pl-8 ${isLast ? "" : "pb-8"}`}>
+                      {!isLast && (
+                        <div className="absolute left-[7px] top-3 bottom-0 w-px bg-primary/20" />
+                      )}
+                      <div className="absolute left-0 top-1.5 flex items-center justify-center">
+                        <div className="w-[15px] h-[15px] rounded-full border-2 border-primary bg-card/80" />
+                        <div className="absolute w-[7px] h-[7px] rounded-full bg-primary" />
+                      </div>
+                      <div className="flex flex-col gap-0.5">
+                        <p className="text-foreground font-medium leading-snug">{dateItem.title}</p>
+                        <small className="text-muted-foreground">{dateItem.date}</small>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
             </div>
-            <div className="flex flex-col gap-3">
-              <h5 className="text-foreground">Key Requirements</h5>
+            <div className={subsectionBlock}>
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-3">
+                {t("submissionRequirementsTitle")}
+              </p>
               <ul className="flex flex-col gap-2">
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
-                  <p className="text-foreground">
-                    <strong>Anonymous submission:</strong> No author names, affiliations, or
-                    self-references
-                  </p>
+                  <p className="text-foreground">{t("posterRequirementFormat")}</p>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
-                  <p className="text-foreground">
-                    <strong>PDF format:</strong> EasyChair LaTeX or Word template
-                  </p>
+                  <p className="text-foreground">{t("posterRequirementAbstract")}</p>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
-                  <p className="text-foreground">
-                    <strong>Page length:</strong> 5-20 pages in EasyChair style
-                  </p>
+                  <p className="text-foreground">{t("posterRequirementDraft")}</p>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-1" />
-                  <p className="text-foreground">
-                    <strong>Original work:</strong> Must not overlap with published work
-                  </p>
+                  <p className="text-foreground">{t("posterRequirementTrack", { year })}</p>
                 </li>
               </ul>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
 
       {/* General Requirements */}
       <div className={`${glassCard} p-6 sm:p-8`}>
-        <h3 className="text-foreground flex items-center mb-4">
+        <h2 className="text-foreground flex items-center mb-4 text-lg font-semibold">
           <span className="w-1.5 h-6 bg-primary rounded-full mr-4" />
           {t("generalRequirementsTitle")}
-        </h3>
+        </h2>
         <p className="text-foreground">
           All papers must be original and not simultaneously submitted to another journal or
           conference. The contributions to EBISION {year} must be submitted to the conference
@@ -179,68 +216,31 @@ const CallForPapers = async ({ year }: { year: ValidYear }) => {
         </p>
       </div>
 
-      {/* Submission Requirements */}
-      <div className={`${glassCard} p-6 sm:p-8`}>
-        <h3 className="text-foreground flex items-center mb-6">
-          <span className="w-1.5 h-6 bg-primary rounded-full mr-4" />
-          {t("submissionRequirementsTitle")}
-        </h3>
-        <ul className="flex flex-col gap-3 mb-6">
-          {callForPapersData.submissionGuidelines.requirements.map((requirement, index) => (
-            <li key={index} className="flex items-start gap-3">
-              <span className="w-1.5 h-1.5 bg-primary/60 mt-2.5 shrink-0 rounded-full" />
-              <span className="text-foreground flex-1">
-                {typeof requirement === "string" ? (
-                  <p>{requirement}</p>
-                ) : (
-                  <p>
-                    {requirement.text}
-                    <a
-                      href={requirement.link.href}
-                      target={requirement.link.target}
-                      rel="noopener noreferrer"
-                      className="text-primary hover:text-primary/80 underline"
-                    >
-                      {requirement.link.text}
-                    </a>
-                    {requirement.textAfter}
-                    <a
-                      href={requirement.link2.href}
-                      target={requirement.link2.target}
-                      rel="noopener noreferrer"
-                      className="text-primary hover:text-primary/80 underline"
-                    >
-                      {requirement.link2.text}
-                    </a>
-                    {requirement.textEnd}
-                  </p>
-                )}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-col sm:flex-row items-center gap-4 pt-6 border-t border-border/60">
-          <Button asChild variant="outline">
-            <Link href={`/${year}/author-instruction`}>{tCommon("authorInstructions")}</Link>
-          </Button>
-          <p className="text-muted-foreground">
-            For detailed guidelines, visit the{" "}
-            <Link
-              href={`/${year}/author-instruction`}
-              className="text-primary hover:text-primary/80 underline"
-            >
-              Author Instructions page
-            </Link>
-          </p>
-        </div>
+      {/* Full Guidelines Link */}
+      <div
+        className={`${glassCard} p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4`}
+      >
+        <p className="text-muted-foreground">
+          {t("fullGuidelinesNote")}{" "}
+          <Link
+            href={`/${year}/author-instruction`}
+            className="text-primary hover:text-primary/80 font-medium underline"
+          >
+            {t("authorInstructionsPage")}
+          </Link>
+          {t("fullGuidelinesSuffix") || "."}
+        </p>
+        <Button asChild variant="outline">
+          <Link href={`/${year}/author-instruction`}>{tCommon("authorInstructions")}</Link>
+        </Button>
       </div>
 
       {/* Proceedings & Post Publications */}
       <div className={`${glassCard} p-6 sm:p-8`}>
-        <h3 className="text-foreground flex items-center mb-6">
+        <h2 className="text-foreground flex items-center mb-6 text-lg font-semibold">
           <span className="w-1.5 h-6 bg-primary rounded-full mr-4" />
           {callForPapersData.proceedings.title}
-        </h3>
+        </h2>
         <ul className="flex flex-col gap-3">
           {callForPapersData.proceedings.items.map((item, index) => (
             <li key={index} className="flex items-start gap-3">
@@ -253,10 +253,10 @@ const CallForPapers = async ({ year }: { year: ValidYear }) => {
 
       {/* Topics of Interest */}
       <div className={`${glassCard} p-6 sm:p-8`}>
-        <h3 className="text-foreground flex items-center mb-6">
+        <h2 className="text-foreground flex items-center mb-6 text-lg font-semibold">
           <span className="w-1.5 h-6 bg-primary rounded-full mr-4" />
           {t("topicsTitle")}
-        </h3>
+        </h2>
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {callForPapersData.topics.map((topic, index) => (
             <li key={index} className="flex items-start gap-3">
